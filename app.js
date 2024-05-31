@@ -38,4 +38,15 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+navigator.geolocation.getCurrentPosition(
+  (position) => {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    // Aquí puedes usar las coordenadas para determinar el país del usuario.
+  },
+  (error) => {
+    console.error('Error al obtener la ubicación:', error.message);
+  }
+);
+
 module.exports = app;
