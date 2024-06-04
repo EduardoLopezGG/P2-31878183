@@ -38,15 +38,16 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-navigator.geolocation.getCurrentPosition(
-  (position) => {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    // Aquí puedes usar las coordenadas para determinar el país del usuario.
-  },
-  (error) => {
-    console.error('Error al obtener la ubicación:', error.message);
-  }
-);
+require('dotenv').config();
+
+const emailUser = process.env.EMAIL_USER;
+const emailPassword = process.env.EMAIL_PASSWORD;
+const recaptchaSecret = process.env.RECAPTCHA_SECRET;
+
+// Usa las variables en tu código
+console.log(`Usuario de correo: ${emailUser}`);
+console.log(`Contraseña de correo: ${emailPassword}`);
+console.log(`Token de reCAPTCHA: ${recaptchaSecret}`);
+
 
 module.exports = app;
