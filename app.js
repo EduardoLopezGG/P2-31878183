@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const session = require('express-session')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -18,10 +18,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(session({
+  secret:'SECRET',
+  resave: false,
+  saveUninitialized: true,
+}));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -37,17 +40,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-require('dotenv').config();
-
-const emailUser = process.env.EMAIL_USER;
-const emailPassword = process.env.EMAIL_PASSWORD;
-const recaptchaSecret = process.env.RECAPTCHA_SECRET;
-
-// Usa las variables en tu código
-console.log(`Usuario de correo: ${emailUser}`);
-console.log(`Contraseña de correo: ${emailPassword}`);
-console.log(`Token de reCAPTCHA: ${recaptchaSecret}`);
-
 
 module.exports = app;
